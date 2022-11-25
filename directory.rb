@@ -22,10 +22,15 @@ def print_header
   puts "-------------"
 end
 
-def print(students)
-  students.each.with_index(1) { |student, index| 
-  puts "#{index} #{student[:name]} (#{student[:cohort]} cohort)".center(20)
-  }
+def print_by_cohort(students)
+  students_by_cohort = Hash.new {|hash, key| hash[key] = []}
+  students.each { |student|
+  name = student[:name] ; cohort = student[:cohort]
+  students_by_cohort[cohort] << name }
+  students_by_cohort.each { |cohort, students|
+    puts "In the #{cohort} cohort we have"
+    students.each { |student| puts student }
+    }
 end
 
 def print_footer(names)
@@ -38,5 +43,5 @@ end
 
 students = input_students
 print_header
-print(students)
+print_by_cohort(students)
 print_footer(students)
