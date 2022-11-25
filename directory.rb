@@ -34,10 +34,14 @@ def print_by_cohort(students)
 end
 
 def print_footer(names)
-  if names.count > 0
-    puts "Overall, we have #{names.count} great students."
-  else
-    puts "We have no students!"
+  num_names = names.count
+  case num_names
+    when 0
+      puts "We have no students!"
+    when 1
+      puts "Overall, we have 1 great student"
+    else
+      puts "Overall, we have #{num_names} great students"
   end
 end
 
