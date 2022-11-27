@@ -12,6 +12,10 @@ def try_load_students
   end
 end
 
+def clear_students
+  @students = []
+end
+
 def add_student(name, cohort)
   @students << {name: name, cohort: cohort.to_sym}
 end
@@ -72,6 +76,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save students to students.csv"
   puts "4. Load students from students.csv"
+  puts "5. Remove all recorded students"
   puts "9. Exit"
 end
 
@@ -104,6 +109,8 @@ def process(selection)
       save_students
     when "4"
       load_students
+    when "5"
+      clear_students
     when "9"
       exit
     else
