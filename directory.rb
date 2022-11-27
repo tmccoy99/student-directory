@@ -20,20 +20,23 @@ def add_student(name, cohort)
   @students << {name: name, cohort: cohort.to_sym}
 end
 
-def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+def ask_for_student_info
+  puts "What is the name of the student to be added?"
   name = STDIN.gets.chomp
   puts "And which cohort is this student in?"
   cohort = STDIN.gets.chomp
+  return name, cohort
+end
+
+def input_students
+  puts "Entering input mode. To exit, just press return twice."
+  name, cohort = ask_for_student_info
   while !(name.empty? && cohort.empty?)
     name = "Unknown name" if name.empty?
     cohort = :november if cohort.empty?
     add_student(name, cohort)
-    puts "Now we have #{@students.count} students."
-    name = STDIN.gets.chomp
-    puts "And which cohort is this student in?"
-    cohort = STDIN.gets.chomp
+    puts "#{name} of the #{cohort} cohort has been added to the student list!"
+    name, cohort = ask_for_student_info
   end
 end
 
@@ -57,11 +60,11 @@ end
 def print_footer
   case @students.count
     when 0
-      puts "We have no students!"
+      puts "We have no students!\n\n"
     when 1
-      puts "Overall, we have 1 great student"
+      puts "Overall, we have 1 great student\n\n"
     else
-      puts "Overall, we have #{@students.count} great students"
+      puts "Overall, we have #{@students.count} great students\n\n"
   end
 end
 
