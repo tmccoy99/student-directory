@@ -1,3 +1,4 @@
+require "csv"
 @students = []
 
 def try_load_students
@@ -77,7 +78,7 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save students to students.csv"
+  puts "3. Save students to given file"
   puts "4. Load students from students.csv"
   puts "5. Remove all recorded students"
   puts "9. Exit"
@@ -86,14 +87,11 @@ end
 def save_students
   puts "What filename would you like to save the student data to?"
   filename = STDIN.gets.chomp
-  file = File.open(filename, "w")
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts(csv_line)
+  CSV.open(filename, "wb") do |csv|
+    @students.each { |student| csv << [student[:name], student[:cohort]] }
   end
-  file.close
   add_to_gitignore(filename)
+  puts "Students successfully saved to #{filename}!\n\n"
 end
 
 def add_to_gitignore(filename)
