@@ -84,13 +84,22 @@ def print_menu
 end
 
 def save_students
-  file = File.open("students.csv", "w")
+  puts "What filename would you like to save the student data to?"
+  filename = STDIN.gets.chomp
+  file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts(csv_line)
   end
   file.close
+  add_to_gitignore(filename)
+end
+
+def add_to_gitignore(filename)
+  ignore = File.open(".gitignore", "a+")
+  ignore.puts(filename) if !(ignore.readlines.include?(filename))
+  ignore.close
 end
 
 def load_students(filename = "students.csv")
