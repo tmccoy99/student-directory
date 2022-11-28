@@ -90,14 +90,15 @@ def save_students
   CSV.open(filename, "wb") do |csv|
     @students.each { |student| csv << [student[:name], student[:cohort]] }
   end
-  add_to_gitignore(filename)
+  update_gitignore(filename)
   puts "Students successfully saved to #{filename}!\n\n"
 end
 
-def add_to_gitignore(filename)
-  ignore = File.open(".gitignore", "a+")
-  ignore.puts(filename) if !(ignore.readlines.include?(filename))
-  ignore.close
+def update_gitignore(filename)
+  csvs = Dir.children(".").select { |file| file[-4..-1] == ".csv" }
+  File.open(".gitignore", "w") do |gitignore|
+    csvs.each { |csv| gitignore.puts(csv) }
+  end
 end
 
 def load_students(filename = "students.csv")
