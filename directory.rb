@@ -15,6 +15,7 @@ end
 
 def clear_students
   @students = []
+  puts "Student list is now empty\n\n"
 end
 
 def add_student(name, cohort)
@@ -39,6 +40,7 @@ def input_students
     puts "#{name} of the #{cohort} cohort has been added to the student list!"
     name, cohort = ask_for_student_info
   end
+  "Exiting input mode\n\n"
 end
 
 def print_header
