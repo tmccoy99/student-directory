@@ -6,16 +6,16 @@ def try_load_students
   filename = "students.csv" if filename.nil?
   if File.exist?(filename)
     load_students(filename)
-    puts "Loaded #{@students.count} students from #{filename}"
+    puts "Loaded #{@students.count} students from #{filename}\n\n"
   elsif ARGV.first
-    puts "Sorry, #{filename} doesn't exist"
+    puts "Sorry, #{filename} doesn't exist\n Exiting programme"
     exit
   end
 end
 
 def clear_students
   @students = []
-  puts "Student list is now empty\n\n"
+  puts "\nStudent list is now empty\n\n"
 end
 
 def add_student(name, cohort)
@@ -40,7 +40,7 @@ def input_students
     puts "#{name} of the #{cohort} cohort has been added to the student list!"
     name, cohort = ask_for_student_info
   end
-  "Exiting input mode\n\n"
+  "\nExiting input mode\n\n"
 end
 
 def print_header
@@ -93,7 +93,7 @@ def save_students
     @students.each { |student| csv << [student[:name], student[:cohort]] }
   end
   update_gitignore(filename)
-  puts "Students successfully saved to #{filename}!\n\n"
+  puts "\nStudents successfully saved to #{filename}!\n\n"
 end
 
 def update_gitignore(filename)
