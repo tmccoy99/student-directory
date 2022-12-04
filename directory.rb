@@ -87,8 +87,10 @@ def print_menu
 end
 
 def save_students
-  puts "What filename would you like to save the student data to?"
+  puts "\nWhat filename would you like to save the student data to?"
+  puts %q[If you would like to save to "students.csv", just hit enter]
   filename = STDIN.gets.chomp
+  filename = "students.csv" if filename.empty?
   CSV.open(filename, "wb") do |csv|
     @students.each { |student| csv << [student[:name], student[:cohort]] }
   end
