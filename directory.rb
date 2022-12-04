@@ -7,7 +7,7 @@ def try_load_students
   if File.exist?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} students from #{filename}"
-  else
+  elsif ARGV.first
     puts "Sorry, #{filename} doesn't exist"
     exit
   end
