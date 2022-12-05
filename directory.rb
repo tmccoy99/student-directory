@@ -6,7 +6,6 @@ def try_load_students
   filename = "students.csv" if filename.nil?
   if File.exist?(filename)
     load_students(filename)
-    puts "Loaded #{@students.count} students from #{filename}\n\n"
   elsif ARGV.first
     puts "Sorry, #{filename} doesn't exist\n Exiting programme"
     exit
@@ -81,7 +80,7 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save students to given file"
-  puts "4. Load students from students.csv"
+  puts "4. Load students from given file"
   puts "5. Remove all recorded students"
   puts "9. Exit"
 end
@@ -111,22 +110,24 @@ def update_gitignore(filename)
 end
 
 def load_from_menu
-  puts %q[What file would you like to load students from?\n If it's "students.csv", just hit enter]
+  puts "What file would you like to load students from?"
+  puts %q[If it's "students.csv", just hit enter]
   filename = get_filename
   load_students(filename)
 end
 
 def load_students(filename)
-  if !(File.exists(filename))
+  if !(File.exist?(filename))
     puts "\nSorry, that file cannot be found, returning to menu\n\n"
     return
   end
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
-    add_student(name, cohort)
+  File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(",")
+      add_student(name, cohort)
+    end
   end
-  file.close
+  puts "Loaded #{@students.count} students from #{filename}\n\n"
 end
 
 def process(selection)
@@ -138,13 +139,13 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      load_students
+      load_from_menu
     when "5"
       clear_students
     when "9"
       exit
     else
-      puts "Invalid input"
+      puts "\nInvalid input\n\n"
   end
 end
 
