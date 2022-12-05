@@ -86,11 +86,16 @@ def print_menu
   puts "9. Exit"
 end
 
+def get_filename
+  filename = STDIN.gets.chomp
+  filename = "students.csv" if filename.empty?
+  filename
+end
+
 def save_students
   puts "\nWhat filename would you like to save the student data to?"
   puts %q[If you would like to save to "students.csv", just hit enter]
-  filename = STDIN.gets.chomp
-  filename = "students.csv" if filename.empty?
+  filename = get_filename
   CSV.open(filename, "wb") do |csv|
     @students.each { |student| csv << [student[:name], student[:cohort]] }
   end
@@ -105,7 +110,17 @@ def update_gitignore(filename)
   end
 end
 
-def load_students(filename = "students.csv")
+def load_from_menu
+  puts %q[What file would you like to load students from?\n If it's "students.csv", just hit enter]
+  filename = get_filename
+  load_students(filename)
+end
+
+def load_students(filename)
+  if !(File.exists(filename))
+    puts "\nSorry, that file cannot be found, returning to menu\n\n"
+    return
+  end
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
